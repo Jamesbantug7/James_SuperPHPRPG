@@ -36,15 +36,10 @@ usort($rows, fn($a, $b) => $b['score'] <=> $a['score']);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<title>Ending</title>
-<style>
-  body { font-family: Georgia, serif; background: #14121a; color: #eee; text-align: center; padding: 20px; }
-  h1 { animation: fade 2s ease-in; }
-  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-  table { margin: 0 auto; border-collapse: collapse; }
-  td, th { padding: 6px 14px; border-bottom: 1px solid #444; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ending</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1><?= htmlspecialchars($titles[$end]) ?></h1>

@@ -183,6 +183,7 @@ $battle = $_SESSION['currentBattle'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Battle: <?= htmlspecialchars($battles[$battleId]['name']) ?></title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Battle: <?= htmlspecialchars($battles[$battleId]['name']) ?></h1>

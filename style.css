@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background: #14121a;
+    color: #eee;
+    font-family: Georgia, serif;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+h1, h2 {
+    color: #ffd166;
+    text-shadow: 0 0 8px #ffd16655;
+    animation: slideDown 0.6s ease-out;
+}
+
+h1 {
+    max-width: 700px;
+    margin: 20px auto;
+    font-size: 1.4em;
+    line-height: 1.5;
+}
+
+p { animation: slideLeft 0.6s ease-out; }
+
+a { color: #8ecae6; }
+a:hover { color: #ffd166; }
+
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #231f2e;
+    border: 2px solid #ffd166;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00000099;
+    animation: slideUp 0.6s ease-out;
+}
+
+fieldset {
+    border: 1px solid #666;
+    border-radius: 8px;
+    margin: 12px 0;
+    padding: 10px;
+}
+
+legend {
+    color: #ffd166;
+    padding: 0 8px;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 8px;
+    margin: 6px;
+    background: #14121a;
+    color: #eee;
+    border: 1px solid #666;
+    border-radius: 5px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    border-color: #ffd166;
+}
+
+fieldset label {
+    display: block;
+    margin: 8px 0;
+    padding: 10px;
+    background: #14121a;
+    border: 2px solid #3a2f55;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    animation: slideRight 0.5s ease-out backwards;
+}
+
+fieldset label:nth-of-type(2) { animation-delay: 0.15s; }
+fieldset label:nth-of-type(3) { animation-delay: 0.3s; }
+
+fieldset label:hover {
+    transform: translateX(8px);
+    border-color: #8ecae6;
+}
+
+fieldset label:has(input:checked) {
+    background: #3a2f55;
+    border-color: #ffd166;
+}
+
+button {
+    padding: 12px 24px;
+    margin: 6px;
+    background: #3a2f55;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1em;
+    border: 2px solid #8ecae6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: #5b3fa0;
+    transform: scale(1.08);
+    box-shadow: 0 0 12px #8ecae6;
+}
+
+button:active:not(:disabled) { transform: scale(0.95); }
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+section {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 15px;
+    background: #231f2e;
+    border: 2px solid #e63946;
+    border-radius: 10px;
+    animation: slideLeft 0.6s ease-out;
+}
+
+section h2:nth-of-type(2) {
+    color: #e63946;
+    text-shadow: 0 0 8px #e6394655;
+}
+
+h2 { animation: slideDown 0.6s ease-out; }
+
+table { margin: 0 auto; border-collapse: collapse; }
+td, th { padding: 6px 14px; border-bottom: 1px solid #444; }
+tr { animation: slideLeft 0.5s ease-out backwards; }
+tr:nth-child(2) { animation-delay: 0.1s; }
+tr:nth-child(3) { animation-delay: 0.2s; }
+tr:nth-child(4) { animation-delay: 0.3s; }
+tr:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideLeft {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(-60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
