@@ -37,14 +37,12 @@ if ($option2 == "choice3") {
 <h1>Third part of story: The heroes are blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </h1>
 <form action="battle.php" method="post">
     <input type="hidden" name="battle" value="battle3">
-    <label for="storyChoices">
-        What will you do?
-    </label>
-    <legend>
-        <input type="radio" name="storyChoice3" value="choice1"><?= htmlspecialchars($option3_1) ?></input>
-        <input type="radio" name="storyChoice3" value="choice2"><?= htmlspecialchars($option3_2) ?></input>
-        <input type="radio" name="storyChoice3" value="choice3"><?= htmlspecialchars($option3_3) ?></input>
-    </legend>
+    <fieldset>
+        <legend>What will you do?</legend>
+        <label><input type="radio" name="storyChoice3" value="choice1" required><?= htmlspecialchars($option3_1) ?></label>
+        <label><input type="radio" name="storyChoice3" value="choice2" required><?= htmlspecialchars($option3_2) ?></label>
+        <label><input type="radio" name="storyChoice3" value="choice3" required><?= htmlspecialchars($option3_3) ?></label>
+    </fieldset>
     <button type="submit">Submit</button>
 </form>
 </body>

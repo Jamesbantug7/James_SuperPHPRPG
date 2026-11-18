@@ -19,14 +19,14 @@ if (!isset($_SESSION['selectedChoices'])) {
 <h1>Beginning of story: The heroes are blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </h1>
 <form action="battle.php" method="post">
     <input type="hidden" name="battle" value="battle1">
-    <label for="storyChoices">
-        What will you do?
-    </label>
-    <legend>
-        <input type="radio" name="storyChoice1" value="choice1">Choice 1 placeholder</input>
-        <input type="radio" name="storyChoice1" value="choice2">Choice 2 placeholder</input>
-        <input type="radio" name="storyChoice1" value="choice3">Choice 3 placeholder</input>
-    </legend>
+    <fieldset>
+        <legend>What will you do?</legend>
+        <label><input type="radio" name="storyChoice1" value="choice1" required>Choice 1 placeholder</label>
+        <label><input type="radio" name="storyChoice1" value="choice2" required>Choice 2 placeholder</label>
+        <label><input type="radio" name="storyChoice1" value="choice3" required>Choice 3 placeholder</label>
+    </fieldset>
+
+    
     <button type="submit">Submit</button>
 </form>
 </body>

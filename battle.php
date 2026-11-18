@@ -15,7 +15,7 @@ $battles = [
     'battle2' => [
         'name' => 'Placeholder Enemy 2',
         'hp' => 60,
-        'attack' => 18,
+        'attack' => 15,
         'defense' => 9,
         'magicAttack' => 16,
         'magicDefense' => 10,
@@ -25,7 +25,7 @@ $battles = [
     'battle3' => [
         'name' => 'Placeholder Enemy 3',
         'hp' => 80,
-        'attack' => 22,
+        'attack' => 18,
         'defense' => 13,
         'magicAttack' => 20,
         'magicDefense' => 14,
@@ -35,17 +35,23 @@ $battles = [
 ];
 
 $classStats = [
-    'fighter' => ['hp' => 100, 'attack' => 20, 'defense' => 12, 'magicDefense' => 12, 'magicPower' => 3],
-    'mage' => ['hp' => 60, 'attack' => 8, 'defense' => 7, 'magicDefense' => 18, 'magicPower' => 24],
-    'knight' => ['hp' => 130, 'attack' => 14, 'defense' => 21, 'magicDefense' => 20, 'magicPower' => 8],
+    'fighter' => ['hp' => 70, 'attack' => 15, 'defense' => 9, 'magicDefense' => 8, 'magicPower' => 3],
+    'mage' => ['hp' => 50, 'attack' => 8, 'defense' => 7, 'magicDefense' => 13, 'magicPower' => 18],
+    'knight' => ['hp' => 90, 'attack' => 13, 'defense' => 12, 'magicDefense' => 12, 'magicPower' => 8],
 ];
 $raceModifiers = [
     'human' => ['hp' => 0, 'attack' => 0, 'defense' => 0, 'magicDefense' => 0, 'magicPower' => 0],
-    'elf' => ['hp' => -5, 'attack' => 3, 'defense' => -4, 'magicDefense' => 1, 'magicPower' => 4],
+    'elf' => ['hp' => -10, 'attack' => 3, 'defense' => -4, 'magicDefense' => 1, 'magicPower' => 4],
     'dwarf' => ['hp' => 10, 'attack' => -2, 'defense' => 5, 'magicDefense' => 4, 'magicPower' => -2],
 ];
+if (!empty(trim($_POST['playerName'] ?? ''))) {
+    $_SESSION['playerName'] = trim($_POST['playerName']);
+}
+
+$playerName = $_SESSION['playerName'] ?? 'Hero';
 $playerClass = $_SESSION['playerClass'] ?? 'fighter';
 $playerRace = $_SESSION['playerRace'] ?? 'human';
+
 if (!isset($classStats[$playerClass])) {
     $playerClass = 'fighter';
 }
@@ -60,6 +66,7 @@ $playerDefaults['hp'] = max(1, $playerDefaults['hp']);
 $playerDefaults['magicPower'] = max(1, $playerDefaults['magicPower']);
 $playerDefaults['maxHp'] = $playerDefaults['hp'];
 $playerDefaults['items'] = 1;
+$playerDefaults['name'] = $playerName;
 $playerDefaults['class'] = $playerClass;
 $playerDefaults['race'] = $playerRace;
 
@@ -113,24 +120,25 @@ if ($action !== '' && $battle['status'] === 'active') {
     $damage = 0;
     $actionMessage = '';
     if ($action === 'attack') {
-        $damage = max(1, $player['attack'] + random_int(0, 3) - $battles[$battleId]['defense']);
+        $damage = max(1, $player['attack'] + random_int(0, 5) - ($battles[$battleId]['defense']*0.7));
         $actionMessage = 'You dealt ' . $damage . ' damage.';
     } 
     elseif ($action === 'magic') {
-        $damage = max(
-            1,
-            (int)round($player['magicPower'] * 1.25)
-                + random_int(4, 7) - $battles[$battleId]['magicDefense']
-        );
+        $damage = max(1, (int)round($player['magicPower'] * 1.25) + random_int(4, 7) - ($battles[$battleId]['magicDefense']*0.7));
         $actionMessage = 'You dealt ' . $damage . ' magic damage.';
     } 
     elseif ($action === 'item') {
         if ($player['items'] < 1) {
-            $error = 'You have no heals left.';
-        } else {
-            $player['items']--;
-            $healed = min(12, $player['maxHp'] - $player['hp']);
-            $player['hp'] += $healed;
+            $error = 'You are out of items.';
+        } 
+        else {
+            $player['items']--; 
+            $oldHp = $player['hp'];
+            $player['hp'] += 30;
+            if ($player['hp'] > $playerDefaults['hp']) {
+                $player['hp'] = $playerDefaults['hp']; 
+            }
+            $healed = $player['hp'] - $oldHp;
             $actionMessage = 'You restored ' . $healed . ' HP.';
         }
     } 
@@ -143,7 +151,7 @@ if ($action !== '' && $battle['status'] === 'active') {
         $battle['lastMove'] = $actionMessage;
         if ($battle['enemyHp'] === 0) {
             $battle['status'] = 'won';
-            $player['items'] = 1;
+            $player['items'] += 1;
         } 
         else {
             $move = $battles[$battleId]['moves'][array_rand($battles[$battleId]['moves'])];
@@ -153,7 +161,7 @@ if ($action !== '' && $battle['status'] === 'active') {
             $playerDefense = $move === 'magic'
                 ? $player['magicDefense']
                 : $player['defense'];
-            $incomingDamage = max(1, $enemyAttack - $playerDefense);
+            $incomingDamage = max(1, $enemyAttack - ($playerDefense*0.7));
             $player['hp'] = max(0, $player['hp'] - $incomingDamage);
             $battle['lastMove'] .= ' ' . $battles[$battleId]['name'] . ' used ' . ucfirst($move)
                 . ' and dealt ' . $incomingDamage . ' damage.';
@@ -172,20 +180,20 @@ $battle = $_SESSION['currentBattle'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Battle: <?= htmlspecialchars($battles[$battleId]['name'], ENT_QUOTES, 'UTF-8') ?></title>
+    <title>Battle: <?= htmlspecialchars($battles[$battleId]['name']) ?></title>
 </head>
 <body>
-    <h1>Battle: <?= htmlspecialchars($battles[$battleId]['name'], ENT_QUOTES, 'UTF-8') ?></h1>
+    <h1>Battle: <?= htmlspecialchars($battles[$battleId]['name']) ?></h1>
     <section>
-        <h2>Hero</h2>
-        <p><?= htmlspecialchars(ucfirst($player['race']) . ' ' . ucfirst($player['class']), ENT_QUOTES, 'UTF-8') ?></p>
+        <h2><?= htmlspecialchars($player['name'] ?? $playerName) ?></h2>
+        <p><?= htmlspecialchars(ucfirst($player['race']) . ' ' . ucfirst($player['class'])) ?></p>
         <p>HP: <?= (int)$player['hp'] ?> / <?= (int)$player['maxHp'] ?> |
-            Heals: <?= (int)$player['items'] ?></p>
+            Items: <?= (int)$player['items'] ?></p>
         <p>Attack: <?= (int)$player['attack'] ?> |
             Defense: <?= (int)$player['defense'] ?> |
             Magic Defense: <?= (int)$player['magicDefense'] ?> |
             Magic Power: <?= (int)$player['magicPower'] ?></p>
-        <h2><?= htmlspecialchars($battles[$battleId]['name'], ENT_QUOTES, 'UTF-8') ?></h2>
+        <h2><?= htmlspecialchars($battles[$battleId]['name']) ?></h2>
         <p>Enemy HP: <?= (int)$battle['enemyHp'] ?> / <?= (int)$battles[$battleId]['hp'] ?></p>
         <p>Enemy Attack: <?= (int)$battles[$battleId]['attack'] ?> |
             Defense: <?= (int)$battles[$battleId]['defense'] ?> |
@@ -215,7 +223,7 @@ $battle = $_SESSION['currentBattle'];
         </form>
     <?php elseif ($battle['status'] === 'won'): ?>
         <h2>Victory!</h2>
-        <p>You have one heal for the next story part.</p>
+        <p>You gained another item!</p>
         <form method="post" action="<?= htmlspecialchars($battles[$battleId]['next']) ?>">
             <?php foreach ($battle['storyData'] as $field => $value): ?>
                 <input type="hidden" name="<?= htmlspecialchars($field) ?>" value="<?= htmlspecialchars($value) ?>">
