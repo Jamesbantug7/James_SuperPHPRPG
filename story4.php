@@ -30,20 +30,18 @@ if ($option3 == "choice3") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Placeholder</title>
 </head>
 <body>
 <h1>Climax of story: The heroes are blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </h1>
-<form action="https://codd.cs.gsu.edu/~jbantug1/WP/PW/2/ending.php" method="post">    
-    <label for="storyChoices">
-        What will you do?
-    </label>
-    <legend>
-        <input type="radio" name="storyChoice4" value="choice1"><?= htmlspecialchars($option4_1) ?></input>
-        <input type="radio" name="storyChoice4" value="choice2"><?= htmlspecialchars($option4_2) ?></input>
-        <input type="radio" name="storyChoice4" value="choice3"><?= htmlspecialchars($option4_3) ?></input>
-    </legend>
+<form action="ending.php" method="post">   
+    <fieldset>
+        <legend>What will you do?</legend>
+        <label><input type="radio" name="storyChoice4" value="choice1" required><?= htmlspecialchars($option4_1) ?></label>
+        <label><input type="radio" name="storyChoice4" value="choice2" required><?= htmlspecialchars($option4_2) ?></label>
+        <label><input type="radio" name="storyChoice4" value="choice3" required><?= htmlspecialchars($option4_3) ?></label>
+    </fieldset>
     <button type="submit">Submit</button>
 </form>
 </body>
