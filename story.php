@@ -11,8 +11,10 @@ if (!isset($_SESSION['playerClass'], $_SESSION['playerRace'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>Placeholder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chapter 1</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>Beginning of story: The heroes are blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </h1>
@@ -31,4 +33,3 @@ if (!isset($_SESSION['playerClass'], $_SESSION['playerRace'])) {
 <p><a href="logout.php">Log out</a></p>
 </body>
 </html>
-
