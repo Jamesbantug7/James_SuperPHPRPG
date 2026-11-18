@@ -1,14 +1,9 @@
 <?php
-session_start();
-
-$_SESSION = [];
-
-if (ini_get('session.use_cookies')) {
-    $p = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
-}
-
-session_destroy();
+require_once __DIR__ . '/auth.php';
+requireLogin();
+session_write_close();
+setcookie('rpgUser', '', time() - 42000, '/');
+unset($_COOKIE['rpgUser']);
 
 header('Location: login.php?msg=' . urlencode('You have been logged out.'));
 exit;

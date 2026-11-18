@@ -1,18 +1,32 @@
 <?php
-session_start();
+require_once __DIR__ . '/auth.php';
+requireLogin();
+$titles = ['good' => 'Good Ending', 'bad' => 'Bad Ending', 'secret' => 'Secret Path'];
 
-if (empty($_SESSION['user'])) { header('Location: login.php'); exit; }
-$titles = ['heroic' => 'Heroic Victory', 'tragic' => 'Tragic Failure', 'secret' => 'Secret Path'];
+if (($_POST['storyChoice4'] ?? '') === 'choice1') {
+    $_SESSION['ending'] = 'good';
+} elseif (($_POST['storyChoice4'] ?? '') === 'choice2') {
+    $_SESSION['ending'] = 'bad';
+} elseif (($_POST['storyChoice4'] ?? '') === 'choice3') {
+    $_SESSION['ending'] = 'secret';
+}
+
 $end = $_SESSION['ending'] ?? '';
-if (!isset($titles[$end])) { header('Location: story.php'); exit; }
+if (!isset($titles[$end])) {
+    header('Location: story.php');
+    exit;
+}
 
 if (($_POST['action'] ?? '') === 'replay') {
-    unset($_SESSION['hero'], $_SESSION['node'], $_SESSION['ending'], $_SESSION['score_saved']);
-    header('Location: character.php'); exit;
+    unset($_SESSION['ending'], $_SESSION['score_saved'], $_SESSION['score'], $_SESSION['battlePlayer'], $_SESSION['currentBattle']);
+    $_SESSION['currentPage'] = 'character.php';
+    header('Location: character.php');
+    exit;
 }
 
 $score = (int)($_SESSION['score'] ?? 0);
 if (empty($_SESSION['score_saved'])) {
+    $_SESSION['leaderboard'] ??= [];
     $_SESSION['leaderboard'][] = ['user' => $_SESSION['user'], 'score' => $score, 'ending' => $end];
     $_SESSION['score_saved'] = true;
 }

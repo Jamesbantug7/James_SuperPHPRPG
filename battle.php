@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/auth.php';
+requireLogin();
 
 $battles = [
     'battle1' => [
@@ -70,7 +71,7 @@ $playerDefaults['name'] = $playerName;
 $playerDefaults['class'] = $playerClass;
 $playerDefaults['race'] = $playerRace;
 
-$battleId = $_POST['battle'] ?? '';
+$battleId = $_POST['battle'] ?? ($_SESSION['currentBattle']['id'] ?? '');
 if (!isset($battles[$battleId])) {
     http_response_code(400);
     exit('Unknown battle.');
@@ -152,6 +153,7 @@ if ($action !== '' && $battle['status'] === 'active') {
         if ($battle['enemyHp'] === 0) {
             $battle['status'] = 'won';
             $player['items'] += 1;
+            $_SESSION['score'] = ($_SESSION['score'] ?? 0) + 100;
         } 
         else {
             $move = $battles[$battleId]['moves'][array_rand($battles[$battleId]['moves'])];
@@ -241,5 +243,6 @@ $battle = $_SESSION['currentBattle'];
             <button type="submit">Try Again</button>
         </form>
     <?php endif; ?>
+    <p><a href="logout.php">Log out</a></p>
 </body>
 </html>
