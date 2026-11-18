@@ -30,12 +30,13 @@ if ($option1 == "choice3") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Placeholder</title>
 </head>
 <body>
 <h1>Second part of story: The heroes are blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </h1>
-<form action="https://codd.cs.gsu.edu/~jbantug1/WP/PW/2/story3.php" method="post">    
+<form action="battle.php" method="post">
+    <input type="hidden" name="battle" value="battle2">
     <label for="storyChoices">
         What will you do?
     </label>
