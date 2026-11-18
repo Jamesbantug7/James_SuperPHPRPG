@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/auth.php';
+requireLogin();
 
 $classes = ['fighter', 'mage', 'knight'];
 $races = ['human', 'elf', 'dwarf'];
@@ -10,11 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $class = $_POST['classChoice'] ?? '';
     $race = $_POST['raceChoice'] ?? '';
 
-    if (in_array($class, $classes, true) && in_array($race, $races, true)) {
-        $_SESSION['playerName'] = $name;
+    if (trim($name) !== '' && in_array($class, $classes, true) && in_array($race, $races, true)) {
+        $_SESSION['playerName'] = trim($name);
         $_SESSION['playerClass'] = $class;
         $_SESSION['playerRace'] = $race;
-        unset($_SESSION['battlePlayer'], $_SESSION['currentBattle'], $_SESSION['selectedChoices']);
+        unset($_SESSION['battlePlayer'], $_SESSION['currentBattle']);
+        $_SESSION['currentPage'] = 'story.php';
         header('Location: story.php');
         exit;
     }
@@ -50,5 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </fieldset>
     <button type="submit">Submit</button>
 </form>
+<p><a href="logout.php">Log out</a></p>
 </body>
 </html>

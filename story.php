@@ -1,11 +1,10 @@
 <?php
-session_start();
+require_once __DIR__ . '/auth.php';
+requireLogin();
 if (!isset($_SESSION['playerClass'], $_SESSION['playerRace'])) {
+    $_SESSION['currentPage'] = 'character.php';
     header('Location: character.php');
     exit;
-}
-if (!isset($_SESSION['selectedChoices'])) {
-    $_SESSION['selectedChoices'] = [];
 }
 ?>
 
@@ -29,6 +28,7 @@ if (!isset($_SESSION['selectedChoices'])) {
     
     <button type="submit">Submit</button>
 </form>
+<p><a href="logout.php">Log out</a></p>
 </body>
 </html>
 

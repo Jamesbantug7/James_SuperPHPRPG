@@ -1,30 +1,14 @@
 <?php
-session_start();
-if (!isset($_SESSION['selectedChoices'])) {
-    $_SESSION['selectedChoices'] = [];
-}
+require_once __DIR__ . '/auth.php';
+requireLogin();
 $option2 = $_POST['storyChoice2'] ?? '';
-if ($option2 !== '') {
-    $_SESSION['selectedChoices'][] = $option2;
-}
-$option3_1 = "Default Choice";
-$option3_2 = "Default Choice";
-$option3_3 = "Default Choice";
-if ($option2 == "choice1") {
-    $option3_1 = "Good Choice";
-    $option3_2 = "eh Choice";
-    $option3_3 = "trash Choice";
-}
-if ($option2 == "choice2") {
-    $option3_1 = "Bad Choice";
-    $option3_2 = "whatever Choice";
-    $option3_3 = "decent Choice";
-}
-if ($option2 == "choice3") {
-    $option3_1 = "Bad Choice";
-    $option3_2 = "mediocre Choice";
-    $option3_3 = "test Choice";
-}
+$option1 = $_POST['storyChoice1'] ?? '';
+$options = [
+    'choice1' => ['Good Choice', 'eh Choice', 'trash Choice'],
+    'choice2' => ['Bad Choice', 'whatever Choice', 'decent Choice'],
+    'choice3' => ['Bad Choice', 'mediocre Choice', 'test Choice'],
+];
+$option3 = $options[$option2] ?? ['Default Choice', 'Default Choice', 'Default Choice'];
 ?>
 
 <!DOCTYPE html>
@@ -37,13 +21,16 @@ if ($option2 == "choice3") {
 <h1>Third part of story: The heroes are blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah </h1>
 <form action="battle.php" method="post">
     <input type="hidden" name="battle" value="battle3">
+    <input type="hidden" name="storyChoice1" value="<?= htmlspecialchars($option1) ?>">
+    <input type="hidden" name="storyChoice2" value="<?= htmlspecialchars($option2) ?>">
     <fieldset>
         <legend>What will you do?</legend>
-        <label><input type="radio" name="storyChoice3" value="choice1" required><?= htmlspecialchars($option3_1) ?></label>
-        <label><input type="radio" name="storyChoice3" value="choice2" required><?= htmlspecialchars($option3_2) ?></label>
-        <label><input type="radio" name="storyChoice3" value="choice3" required><?= htmlspecialchars($option3_3) ?></label>
+        <label><input type="radio" name="storyChoice3" value="choice1" required><?= htmlspecialchars($option3[0]) ?></label>
+        <label><input type="radio" name="storyChoice3" value="choice2" required><?= htmlspecialchars($option3[1]) ?></label>
+        <label><input type="radio" name="storyChoice3" value="choice3" required><?= htmlspecialchars($option3[2]) ?></label>
     </fieldset>
     <button type="submit">Submit</button>
 </form>
+<p><a href="logout.php">Log out</a></p>
 </body>
 </html>
