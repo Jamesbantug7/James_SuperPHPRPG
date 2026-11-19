@@ -4,7 +4,8 @@ requireLogin();
 
 $battles = [
     'battle1' => [
-        'name' => 'Placeholder Enemy 1',
+        'name' => 'Thieves',
+        'description' => 'You encounter a group of thieves who are trying to steal your belongings.',
         'hp' => 40,
         'attack' => 14,
         'defense' => 5,
@@ -14,7 +15,8 @@ $battles = [
         'next' => 'story2.php',
     ],
     'battle2' => [
-        'name' => 'Placeholder Enemy 2',
+        'name' => 'Wizard',
+        'description' => 'A Wizard blocks your way.',
         'hp' => 60,
         'attack' => 15,
         'defense' => 9,
@@ -24,7 +26,8 @@ $battles = [
         'next' => 'story3.php',
     ],
     'battle3' => [
-        'name' => 'Placeholder Enemy 3',
+        'name' => 'Dragon',
+        'description' => 'The Dragon guards the treasure you have been seeking.',
         'hp' => 80,
         'attack' => 18,
         'defense' => 13,
@@ -36,7 +39,7 @@ $battles = [
 ];
 
 $classStats = [
-    'fighter' => ['hp' => 70, 'attack' => 15, 'defense' => 9, 'magicDefense' => 8, 'magicPower' => 3],
+    'fighter' => ['hp' => 70, 'attack' => 17, 'defense' => 9, 'magicDefense' => 8, 'magicPower' => 3],
     'mage' => ['hp' => 50, 'attack' => 8, 'defense' => 7, 'magicDefense' => 13, 'magicPower' => 18],
     'knight' => ['hp' => 90, 'attack' => 13, 'defense' => 12, 'magicDefense' => 12, 'magicPower' => 8],
 ];
@@ -153,7 +156,6 @@ if ($action !== '' && $battle['status'] === 'active') {
         if ($battle['enemyHp'] === 0) {
             $battle['status'] = 'won';
             $player['items'] += 1;
-            $_SESSION['score'] = ($_SESSION['score'] ?? 0) + 100;
         } 
         else {
             $move = $battles[$battleId]['moves'][array_rand($battles[$battleId]['moves'])];
@@ -197,6 +199,7 @@ $battle = $_SESSION['currentBattle'];
             Magic Defense: <?= (int)$player['magicDefense'] ?> |
             Magic Power: <?= (int)$player['magicPower'] ?></p>
         <h2><?= htmlspecialchars($battles[$battleId]['name']) ?></h2>
+        <p><?= htmlspecialchars($battles[$battleId]['description']) ?></p>
         <p>Enemy HP: <?= (int)$battle['enemyHp'] ?> / <?= (int)$battles[$battleId]['hp'] ?></p>
         <p>Enemy Attack: <?= (int)$battles[$battleId]['attack'] ?> |
             Defense: <?= (int)$battles[$battleId]['defense'] ?> |

@@ -15,7 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['playerName'] = trim($name);
         $_SESSION['playerClass'] = $class;
         $_SESSION['playerRace'] = $race;
-        unset($_SESSION['battlePlayer'], $_SESSION['currentBattle']);
+        unset(
+            $_SESSION['battlePlayer'],
+            $_SESSION['currentBattle'],
+            $_SESSION['ending'],
+            $_SESSION['leaderboard_entry_index']
+        );
         $_SESSION['currentPage'] = 'story.php';
         header('Location: story.php');
         exit;
